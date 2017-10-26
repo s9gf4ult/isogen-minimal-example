@@ -28,8 +28,6 @@ class ToXmlParentAttributes a where
 -- and returns it as an attribute.
 -- This way the TH-generators can safely apply `toXmlParentAttributes` to any
 -- value without worrying about missing instances.
-instance {-# OVERLAPPABLE #-} ToXmlParentAttributes a where
-  toXmlParentAttributes _ = []
 
 class ToXmlAttribute a where
   toXmlAttribute :: a -> T.S.Text
