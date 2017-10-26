@@ -6,17 +6,15 @@ import Data.Maybe
 import Data.Text as T
 import ExternalStuff
 import GHC.Generics (Generic)
-import Text.XML.DOM.Parser
+import Text.XML.Node
 import Text.XML.ParentAttributes
-import Text.XML.Writer
-
 
 data XmlFoo = XmlFoo
   { _xfQuux :: Text
     -- ^ This is in fact an attribute, not tag
   } deriving (Generic, Show, Eq)
 
-instance ToXML XmlFoo where
+instance WriteNodes XmlFoo where
   toXML _ = return ()
 
 instance ToXmlParentAttributes XmlFoo where

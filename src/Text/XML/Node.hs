@@ -1,14 +1,18 @@
 module Text.XML.Node where
 
+import Control.Lens
 import Control.Monad.Writer
 import Data.Text as T
 
 data Node
   = Node
-  { nodeChilds     :: [(Text, Node)]
-  , nodeAttributes :: [(Text, Text)] }
-  | Leaf Text
+  { _nodeChilds     :: [(Text, Node)]
+  , _nodeAttributes :: [(Text, Text)] }
+  | Leaf
+  { _leafText :: Text }
   deriving (Show)
+
+makeLenses ''Node
 
 type NodeWriter = Writer [(Text, Node)]
 
