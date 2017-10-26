@@ -29,8 +29,7 @@ source-repository head
 library
   exposed-modules:     ExternalStuff
                      , Text.XML.ParentAttributes
-  build-depends:       QuickCheck >= 2.8
-                     , base >=4.8 && <5
+  build-depends:       base >=4.8 && <5
                      , dom-parser >= 2.0.0
                      , lens >= 4.13
                      , mtl >= 2.2
@@ -56,17 +55,18 @@ test-suite spec
   main-is:            Main.hs
   other-modules:      TestDefs
   build-depends:      base
-                    , QuickCheck
+                    , HUnit
                     , data-default
                     , dom-parser
                     , generic-arbitrary
                     , hspec
                     , isogen-minimal-example
-                    , quickcheck-instances
+                    , lens
                     , semigroups
                     , text
                     , xml-conduit
                     , xml-conduit-writer
+                    , xml-lens
   default-language:   Haskell2010
   default-extensions:  CPP
                      , DeriveGeneric
