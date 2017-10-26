@@ -9,8 +9,5 @@ import Text.XML.DOM.Parser
 import Text.XML.ParentAttributes
 import Text.XML.Writer
 
-mkElement :: (ToXML a, ToXmlParentAttributes a) => Name -> a -> XML
-mkElement name a = elementA name (toXmlParentAttributes a) a
-
 distribPair :: Functor f => (a, f b) -> f (a, b)
 distribPair (a, fb) = (a,) <$> fb
