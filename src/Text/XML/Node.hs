@@ -24,3 +24,8 @@ render w = snd $ runWriter w
 
 node :: Text -> [(Text, Text)] -> NodeWriter () -> NodeWriter ()
 node name attrs childs = tell $ [(name, Node (render childs) attrs)]
+
+named :: Text -> Traversal' (Text, a) a
+named expected = filtered expName . _2
+  where
+    expName (name, _) = name == expected

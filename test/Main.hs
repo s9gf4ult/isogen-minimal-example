@@ -9,10 +9,8 @@ import System.IO.Unsafe
 import Test.HUnit hiding (Node(..))
 import Test.Hspec
 import TestDefs
-import Text.XML
-import Text.XML.DOM.Parser
-import Text.XML.Lens
-import Text.XML.Writer
+import Text.XML.Node
+
 
 rootExample :: XmlRoot
 rootExample = XmlRoot $ XmlFoo "attribute"
@@ -20,12 +18,12 @@ rootExample = XmlRoot $ XmlFoo "attribute"
 isomorphicFoo :: Assertion
 isomorphicFoo = do
   let
-    rootDoc :: Document
-    rootDoc = document "Root" $ toXML rootExample
+    rootNodes :: [(Text, Node)]
+    rootNodes = render $ writeNodes rootExample
     attrVal :: Maybe Text
-    attrVal = rootDoc ^? root . el "Root" . nodes . traversed . _Element
-      . el "Foo" . attr "Quux"
-  print rootDoc
+    attrVal = rootNodes ^? traversed . named "Foo" . nodeAttributes
+      . traversed . named "Quux"
+  print rootNodes
   attrVal @?= Just "attribute"
 
 main :: IO ()
