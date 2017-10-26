@@ -11,20 +11,21 @@ import Test.Hspec
 import TestDefs
 import Text.XML
 import Text.XML.DOM.Parser
-import Text.XML.Lens hiding (root)
+import Text.XML.Lens
 import Text.XML.Writer
 
-root :: XmlRoot
-root = XmlRoot $ XmlFoo "attribute"
+rootExample :: XmlRoot
+rootExample = XmlRoot $ XmlFoo "attribute"
 
 isomorphicFoo :: Assertion
 isomorphicFoo = do
   let
-    rootNodes :: [Node]
-    rootNodes = render $ toXML root
+    rootDoc :: Document
+    rootDoc = document "Root" $ toXML rootExample
     attrVal :: Maybe Text
-    attrVal = rootNodes ^? traversed . _Element . el "Root" . nodes . traversed
-      . _Element . el "Foo" . attr "Quux"
+    attrVal = rootDoc ^? root . el "Root" . nodes . traversed . _Element
+      . el "Foo" . attr "Quux"
+  print rootDoc
   attrVal @?= Just "attribute"
 
 main :: IO ()
