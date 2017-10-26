@@ -6,6 +6,7 @@ import Data.Maybe
 import Data.Text as T
 import ExternalStuff
 import GHC.Generics (Generic)
+import Text.XML
 import Text.XML.DOM.Parser
 import Text.XML.ParentAttributes
 import Text.XML.Writer
