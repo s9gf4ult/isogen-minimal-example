@@ -2,30 +2,32 @@
 module Main where
 
 import Control.Exception
-import Text.XML
+import Control.Lens
 import Data.Default
+import Data.Text as T
 import System.IO.Unsafe
+import Test.HUnit hiding (Node(..))
 import Test.Hspec
-import Test.Hspec.QuickCheck
-import Test.QuickCheck
 import TestDefs
+import Text.XML
 import Text.XML.DOM.Parser
+import Text.XML.Lens
 import Text.XML.Writer
 
-isomorphicFoo :: XmlRoot -> Property
-isomorphicFoo a = a === isogen
-  where
-    isogen :: XmlRoot
-    isogen =
-      let
-        doc = document "Root" $ toXML a
-        res = case runDomParser doc fromDom of
-          Left e -> unsafePerformIO $ do
-            pprint doc
-            throwIO e
-          Right a' -> a'
-      in res
+rootExample :: XmlRoot
+rootExample = XmlRoot $ XmlFoo "attribute"
+
+isomorphicFoo :: Assertion
+isomorphicFoo = do
+  let
+    rootDoc :: Document
+    rootDoc = document "Root" $ toXML rootExample
+    attrVal :: Maybe Text
+    attrVal = rootDoc ^? root . el "Root" . nodes . traversed . _Element
+      . el "Foo" . attr "Quux"
+  print rootDoc
+  attrVal @?= Just "attribute"
 
 main :: IO ()
 main = hspec $ do
-  prop "isomorphic" isomorphicFoo
+  it "has attr" isomorphicFoo
