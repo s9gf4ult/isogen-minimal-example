@@ -27,10 +27,8 @@ source-repository head
   location: git@github.com:typeable/isogen-minimal-example.git
 
 library
-  exposed-modules:     Data.THGen.Enum
-                     , Data.THGen.XML
+  exposed-modules:     ExternalStuff
                      , Text.XML.ParentAttributes
-  other-modules:       Data.THGen.Compat
   build-depends:       QuickCheck >= 2.8
                      , base >=4.8 && <5
                      , dom-parser >= 2.0.0
@@ -63,11 +61,12 @@ test-suite spec
                     , dom-parser
                     , generic-arbitrary
                     , hspec
+                    , isogen-minimal-example
                     , quickcheck-instances
                     , semigroups
+                    , text
                     , xml-conduit
                     , xml-conduit-writer
-                    , isogen-minimal-example
   default-language:   Haskell2010
   default-extensions:  CPP
                      , DeriveGeneric
