@@ -44,7 +44,7 @@ instance Arbitrary XmlRoot where
   shrink = genericShrink
 
 instance ToXML XmlRoot where
-  toXML r = return () *> id (mkElement "Foo") (_xrFoo r)
+  toXML r = return () *> id (\a -> elementA "Foo" (toXmlParentAttributes a) a) (_xrFoo r)
 
 instance FromDom XmlRoot where
   fromDom = pure XmlRoot
