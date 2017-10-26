@@ -1,51 +1,49 @@
-{-# LANGUAGE NoImplicitPrelude #-}
-
 {-# OPTIONS -ddump-splices #-}
 
 module TestDefs where
 
 import Data.List.NonEmpty
+import Data.Maybe
 import Data.THGen.XML
 import GHC.Generics (Generic)
+import Prelude hiding ((+), (*))
 import Test.QuickCheck.Arbitrary.Generic
 import Test.QuickCheck.Instances ()
+import Text.XML.DOM.Parser
+import Text.XML.ParentAttributes
+import Text.XML.Writer
 
-"Bar" =:= enum
-  & "baroque"
-  & "bartender"
-
-"Quux" Exhaustive =:= enum
-  & "ALL"
-  & "YOUR"
-  & "BASE"
-  & "ARE"
-  & "BELONG"
-  & "TO"
-  & "US"
-
-"Foo" =:= record
-  + "Bar"
-  ? "Baz" [t|Text|]
-  !% "Quux"
-  ?% "Muux" [t|XmlQuux|]
-
-"Root" =:= record
-  ! "Foo"
-
-deriving instance Generic XmlRoot
-
-instance Arbitrary XmlRoot where
-  arbitrary = genericArbitrary
-  shrink = genericShrink
-
-deriving instance Generic XmlFoo
+data XmlFoo = XmlFoo
+  { _xfQuux :: Text
+    -- ^ This is in fact an attribute, not tag
+  } deriving (Generic, Show, Eq)
 
 instance Arbitrary XmlFoo where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-#if __GLASGOW_HASKELL__ < 800
-instance Arbitrary (NonEmpty XmlBar) where
+instance ToXML XmlFoo where
+  toXML f = return ()
+
+instance ToXmlParentAttributes XmlFoo where
+  toXmlParentAttributes f =
+    mapMaybe distribPair [("Quux", (Just . toXmlAttribute) (_xfQuux f))]
+
+instance FromDom XmlFoo where
+  fromDom = pure XmlFoo
+    <*> parseAttribute "Quux" fromAttribute
+
+data XmlRoot = XmlRoot
+  { _xrFoo :: XmlFoo
+  } deriving (Generic, Show, Eq)
+
+instance Arbitrary XmlRoot where
   arbitrary = genericArbitrary
   shrink = genericShrink
-#endif
+
+instance ToXML XmlRoot where
+  toXML r = return () *> id (mkElement "Foo") (_xrFoo r)
+
+instance FromDom XmlRoot where
+  fromDom = pure XmlRoot
+    <*> inElem "Foo" fromDom

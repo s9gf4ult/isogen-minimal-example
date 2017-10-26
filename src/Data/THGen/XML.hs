@@ -20,6 +20,8 @@ module Data.THGen.XML
   , T.Text
   , Int
   , Integer
+  , mkElement
+  , distribPair
   ) where
 
 import           Control.Lens hiding (repeated, enum, (&))
