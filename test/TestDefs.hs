@@ -4,14 +4,16 @@ module TestDefs where
 
 import Data.List.NonEmpty
 import Data.Maybe
-import Data.THGen.XML
+import Data.Text as T
+import ExternalStuff
 import GHC.Generics (Generic)
-import Prelude hiding ((+), (*))
 import Test.QuickCheck.Arbitrary.Generic
 import Test.QuickCheck.Instances ()
+import Text.XML
 import Text.XML.DOM.Parser
 import Text.XML.ParentAttributes
 import Text.XML.Writer
+
 
 data XmlFoo = XmlFoo
   { _xfQuux :: Text
