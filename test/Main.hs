@@ -11,20 +11,13 @@ import Test.Hspec
 
 data Foo = Foo deriving (Show, Eq)
 
-instance ToAttribute Foo where
+instance {-# OVERLAPPING#-} ToAttribute Foo where
   toAttribute _ = "Value from right instance"
-
-data Root = Root
-  { rootFoo :: Foo
-  } deriving (Show, Eq)
-
-rootToNode :: Root -> Text
-rootToNode (Root foo) = mkNode foo
 
 isomorphicFoo :: Assertion
 isomorphicFoo = do
   let
-    rootNode = rootToNode $ Root Foo
+    rootNode = mkNode Foo
   print rootNode
   rootNode @?= "Value from right instance"
 
