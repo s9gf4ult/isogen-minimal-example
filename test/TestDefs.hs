@@ -15,7 +15,7 @@ data XmlFoo = XmlFoo
   } deriving (Generic, Show, Eq)
 
 instance WriteNodes XmlFoo where
-  writeNodes _ = return ()
+  writeNodes _ = []
 
 instance ToXmlParentAttributes XmlFoo where
   toXmlParentAttributes f =
@@ -26,4 +26,4 @@ data XmlRoot = XmlRoot
   } deriving (Generic, Show, Eq)
 
 instance WriteNodes XmlRoot where
-  writeNodes r = return () *> id (mkElement "Foo") (_xrFoo r)
+  writeNodes r = id (mkElement "Foo") (_xrFoo r)

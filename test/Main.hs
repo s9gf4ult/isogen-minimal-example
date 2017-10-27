@@ -19,7 +19,7 @@ isomorphicFoo :: Assertion
 isomorphicFoo = do
   let
     rootNodes :: [(Text, Node)]
-    rootNodes = render $ writeNodes rootExample
+    rootNodes = writeNodes rootExample
     attrVal :: Maybe Text
     attrVal = rootNodes ^? traversed . named "Foo" . nodeAttributes
       . traversed . named "Quux"

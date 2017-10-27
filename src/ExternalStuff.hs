@@ -11,8 +11,8 @@ mkElement
   :: (WriteNodes a, ToXmlParentAttributes a)
   => Text
   -> a
-  -> NodeWriter ()
-mkElement name a = node name (toXmlParentAttributes a) (writeNodes a)
+  -> [(Text, Node)]
+mkElement name a = [(name, Node (writeNodes a) (toXmlParentAttributes a))]
 
 distribPair :: Functor f => (a, f b) -> f (a, b)
 distribPair (a, fb) = (a,) <$> fb
