@@ -18,17 +18,17 @@ named expected = filtered expName . _2
     expName (name, _) = name == expected
 
 rootExample :: XmlRoot
-rootExample = XmlRoot $ XmlFoo "Value from data type"
+rootExample = XmlRoot XmlFoo
 
 isomorphicFoo :: Assertion
 isomorphicFoo = do
   let
-    rootNodes :: [(Text, Node)]
-    rootNodes = writeNodes rootExample
+    rootNodes :: Maybe Node
+    rootNodes = toNode rootExample
     attrVal :: Maybe Text
-    attrVal = rootNodes ^? traversed . named "Foo" . nodeAttribute
+    attrVal = rootNodes ^? _Just . nodeAttribute
   print rootNodes
-  attrVal @?= Just "Value from data type"
+  attrVal @?= Just "Value from right instance"
 
 main :: IO ()
 main = hspec $ do
