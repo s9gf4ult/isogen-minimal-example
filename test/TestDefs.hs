@@ -5,8 +5,6 @@ module TestDefs where
 import Data.Text as T
 import ExternalStuff
 import GHC.Generics (Generic)
-import Text.XML.Node
-import Text.XML.ParentAttributes
 
 data XmlFoo = XmlFoo
   { _xfQuux :: Text
