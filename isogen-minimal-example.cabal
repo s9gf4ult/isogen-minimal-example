@@ -31,7 +31,6 @@ test-suite spec
   hs-source-dirs:     test
   main-is:            Main.hs
   other-modules:      ExternalStuff
-                    , TestDefs
   build-depends:      base
                     , HUnit
                     , data-default
