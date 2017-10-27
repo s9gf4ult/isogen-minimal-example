@@ -10,7 +10,7 @@ import Test.HUnit hiding (Node(..))
 import Test.Hspec
 
 toTextProxy :: (ToText a) => a -> Text
-toTextProxy a = toText a
+toTextProxy = toText
 
 data Foo = Foo deriving (Show, Eq)
 

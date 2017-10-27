@@ -1,9 +1,43 @@
-# xml-isogen
+# About repo
 
-[![Build Status](https://travis-ci.org/typeable/xml-isogen.svg?branch=master)](https://travis-ci.org/typeable/xml-isogen)
+This is the bug demonstration repo. The `master` branch contains
+changes not affected the bug reproducibility and branches with `fix-`
+prefix contain changes causing the bug not reproduce.
 
-TemplateHaskell generators for XML-isomorphic data types, including
-instances for parsing and rendering. A convenient DSL to define those
-types.
+There is also `ghc-???.yaml` files for other versions of
+GHC. `stack.yaml` is for GHC-8.2.1 in which bug is reproducable.
 
-This is similar to XSD but is Haskell-specific.
+# Reproducability
+## Affects a bug
+### Optimization level
+
+`stack clean && stack test` fails, `stack clean && stack test --fast`
+does not. For same code in master branch
+
+### Catch all instance for ToText
+
+removing the instance
+
+```haskell
+instance {-# OVERLAPPABLE #-} ToText a where
+  toText _ = "Catchall attribute value"
+```
+
+solves the problem, see branch `fix-no-catchall-instance`
+
+### Location of toTextProxy
+
+* In other module - FAILS
+* In same module - SUCCEEDS
+
+Moving function `toTextProxy` out from `ExternalStuff` to `Main`
+solves the problem. See branch `fix-move-mkelement`
+
+Problem is also solved if the call of `toTextProxy` replaced with body
+of `toTextProxy`. Branch `fix-replace-mkelement`
+
+## Not affects a bug
+
+### INLINE pragma for toTextProxy
+
+No mater if INLINE pragma is set for `toTextProxy` function
