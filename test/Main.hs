@@ -9,35 +9,17 @@ import System.IO.Unsafe
 import Test.HUnit hiding (Node(..))
 import Test.Hspec
 
-
-mkNode :: (ToNode a, ToAttribute a) => a -> Node
-mkNode a = Node (toNode a) (toAttribute a)
+toTextProxy :: (ToText a) => a -> Text
+toTextProxy a = toText a
 
 data Foo = Foo deriving (Show, Eq)
 
-instance ToNode Foo where
-  toNode _ = Nothing
-
-instance ToAttribute Foo where
-  toAttribute _ = "Value from right instance"
-
-data Root = Root
-  { _xrFoo :: Foo
-  } deriving (Show, Eq)
-
-instance ToNode Root where
-  toNode r = Just $ mkNode (_xrFoo r)
-
-isomorphicFoo :: Assertion
-isomorphicFoo = do
-  let
-    rootNodes :: Maybe Node
-    rootNodes = toNode $ Root Foo
-    attrVal :: Maybe Text
-    attrVal = nodeAttribute <$> rootNodes
-  print rootNodes
-  attrVal @?= Just "Value from right instance"
+instance {-# OVERLAPPING#-} ToText Foo where
+  toText _ = "Value from right instance"
 
 main :: IO ()
 main = hspec $ do
-  it "has attr" isomorphicFoo
+  it "Right instance" $ do
+    let t = toTextProxy Foo
+    print t
+    t @?= "Value from right instance"
