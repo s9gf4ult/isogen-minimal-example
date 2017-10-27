@@ -8,8 +8,8 @@ import Text.XML.Node
 import Text.XML.ParentAttributes
 
 mkElement
-  :: (WriteNodes a, ToXmlParentAttributes a)
+  :: (WriteNodes a, ToAttribute a)
   => Text
   -> a
   -> [(Text, Node)]
-mkElement name a = [(name, Node (writeNodes a) (toXmlParentAttributes a))]
+mkElement name a = [(name, Node (writeNodes a) (toAttribute a))]

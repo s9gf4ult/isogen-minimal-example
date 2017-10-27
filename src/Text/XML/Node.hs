@@ -6,8 +6,8 @@ import Data.Text as T
 
 data Node
   = Node
-  { _nodeChilds     :: [(Text, Node)]
-  , _nodeAttributes :: [(Text, Text)] }
+  { _nodeChilds    :: [(Text, Node)]
+  , _nodeAttribute :: Text }
   deriving (Show)
 
 makeLenses ''Node

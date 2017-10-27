@@ -16,8 +16,8 @@ data XmlFoo = XmlFoo
 instance WriteNodes XmlFoo where
   writeNodes _ = []
 
-instance ToXmlParentAttributes XmlFoo where
-  toXmlParentAttributes f = [("Quux", _xfQuux f)]
+instance ToAttribute XmlFoo where
+  toAttribute = _xfQuux
 
 data XmlRoot = XmlRoot
   { _xrFoo :: XmlFoo

@@ -13,7 +13,7 @@ import Text.XML.Node
 
 
 rootExample :: XmlRoot
-rootExample = XmlRoot $ XmlFoo "attribute"
+rootExample = XmlRoot $ XmlFoo "Value from data type"
 
 isomorphicFoo :: Assertion
 isomorphicFoo = do
@@ -21,10 +21,9 @@ isomorphicFoo = do
     rootNodes :: [(Text, Node)]
     rootNodes = writeNodes rootExample
     attrVal :: Maybe Text
-    attrVal = rootNodes ^? traversed . named "Foo" . nodeAttributes
-      . traversed . named "Quux"
+    attrVal = rootNodes ^? traversed . named "Foo" . nodeAttribute
   print rootNodes
-  attrVal @?= Just "attribute"
+  attrVal @?= Just "Value from data type"
 
 main :: IO ()
 main = hspec $ do
