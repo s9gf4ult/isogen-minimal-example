@@ -11,16 +11,12 @@ import Test.Hspec
 
 data Foo = Foo deriving (Show, Eq)
 
-instance {-# OVERLAPPING#-} ToAttribute Foo where
-  toAttribute _ = "Value from right instance"
-
-isomorphicFoo :: Assertion
-isomorphicFoo = do
-  let
-    rootNode = mkNode Foo
-  print rootNode
-  rootNode @?= "Value from right instance"
+instance {-# OVERLAPPING#-} ToText Foo where
+  toText _ = "Value from right instance"
 
 main :: IO ()
 main = hspec $ do
-  it "has attr" isomorphicFoo
+  it "Right instance" $ do
+    let t = toTextProxy Foo
+    print t
+    t @?= "Value from right instance"

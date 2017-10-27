@@ -2,13 +2,13 @@ module ExternalStuff where
 
 import Data.Text as T
 
-class ToAttribute a where
-  toAttribute :: a -> Text
+class ToText a where
+  toText :: a -> Text
 
 -- | This instance is used in original code as hack to simplify code
 -- generation
-instance {-# OVERLAPPABLE #-} ToAttribute a where
-  toAttribute _ = "Catchall attribute value"
+instance {-# OVERLAPPABLE #-} ToText a where
+  toText _ = "Catchall attribute value"
 
-mkNode :: (ToAttribute a) => a -> Text
-mkNode a = toAttribute a
+toTextProxy :: (ToText a) => a -> Text
+toTextProxy a = toText a
