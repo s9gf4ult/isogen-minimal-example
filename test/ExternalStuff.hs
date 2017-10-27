@@ -6,9 +6,6 @@ data Node = Node
   { nodeAttribute :: Text
   } deriving (Show)
 
-class ToNode a where
-  toNode  :: a -> Node
-
 class ToAttribute a where
   toAttribute :: a -> Text
 
