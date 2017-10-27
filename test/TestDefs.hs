@@ -2,7 +2,6 @@
 
 module TestDefs where
 
-import Data.Maybe
 import Data.Text as T
 import ExternalStuff
 import GHC.Generics (Generic)
@@ -15,15 +14,14 @@ data XmlFoo = XmlFoo
   } deriving (Generic, Show, Eq)
 
 instance WriteNodes XmlFoo where
-  writeNodes _ = return ()
+  writeNodes _ = []
 
-instance ToXmlParentAttributes XmlFoo where
-  toXmlParentAttributes f =
-    mapMaybe distribPair [("Quux", (Just . toXmlAttribute) (_xfQuux f))]
+instance ToAttribute XmlFoo where
+  toAttribute = _xfQuux
 
 data XmlRoot = XmlRoot
   { _xrFoo :: XmlFoo
   } deriving (Generic, Show, Eq)
 
 instance WriteNodes XmlRoot where
-  writeNodes r = return () *> id (mkElement "Foo") (_xrFoo r)
+  writeNodes r = id (mkElement "Foo") (_xrFoo r)

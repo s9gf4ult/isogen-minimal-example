@@ -8,11 +8,8 @@ import Text.XML.Node
 import Text.XML.ParentAttributes
 
 mkElement
-  :: (WriteNodes a, ToXmlParentAttributes a)
+  :: (WriteNodes a, ToAttribute a)
   => Text
   -> a
-  -> NodeWriter ()
-mkElement name a = node name (toXmlParentAttributes a) (writeNodes a)
-
-distribPair :: Functor f => (a, f b) -> f (a, b)
-distribPair (a, fb) = (a,) <$> fb
+  -> [(Text, Node)]
+mkElement name a = [(name, Node (writeNodes a) (toAttribute a))]
