@@ -8,8 +8,6 @@ data Node
   = Node
   { _nodeChilds     :: [(Text, Node)]
   , _nodeAttributes :: [(Text, Text)] }
-  | Leaf
-  { _leafText :: Text }
   deriving (Show)
 
 makeLenses ''Node
