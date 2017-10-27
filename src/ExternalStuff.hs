@@ -6,11 +6,10 @@ import Data.Maybe
 import Data.Text as T
 import GHC.Generics (Generic)
 
-data Node
-  = Node
+data Node = Node
   { _nodeChilds    :: [(Text, Node)]
-  , _nodeAttribute :: Text }
-  deriving (Show)
+  , _nodeAttribute :: Text
+  } deriving (Show)
 
 makeLenses ''Node
 

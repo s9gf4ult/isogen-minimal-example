@@ -6,16 +6,13 @@ import Data.Text as T
 import ExternalStuff
 import GHC.Generics (Generic)
 
-data XmlFoo = XmlFoo
-  { _xfQuux :: Text
-    -- ^ This is in fact an attribute, not tag
-  } deriving (Generic, Show, Eq)
+data XmlFoo = XmlFoo deriving (Generic, Show, Eq)
 
 instance WriteNodes XmlFoo where
   writeNodes _ = []
 
 instance ToAttribute XmlFoo where
-  toAttribute = _xfQuux
+  toAttribute _ = "Value from right instance"
 
 data XmlRoot = XmlRoot
   { _xrFoo :: XmlFoo
