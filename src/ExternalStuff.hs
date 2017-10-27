@@ -7,14 +7,14 @@ import Data.Text as T
 import GHC.Generics (Generic)
 
 data Node = Node
-  { _nodeChilds    :: [(Text, Node)]
+  { _nodeChild     :: Maybe Node
   , _nodeAttribute :: Text
   } deriving (Show)
 
 makeLenses ''Node
 
-class WriteNodes a where
-  writeNodes  :: a -> [(Text, Node)]
+class ToNode a where
+  toNode  :: a -> Maybe Node
 
 class ToAttribute a where
   toAttribute :: a -> Text
@@ -24,9 +24,5 @@ class ToAttribute a where
 instance {-# OVERLAPPABLE #-} ToAttribute a where
   toAttribute _ = "Catchall attribute value"
 
-mkElement
-  :: (WriteNodes a, ToAttribute a)
-  => Text
-  -> a
-  -> [(Text, Node)]
-mkElement name a = [(name, Node (writeNodes a) (toAttribute a))]
+mkNode :: (ToNode a, ToAttribute a) => a -> Node
+mkNode a = Node (toNode a) (toAttribute a)

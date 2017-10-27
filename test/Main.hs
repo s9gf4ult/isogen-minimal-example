@@ -23,10 +23,10 @@ rootExample = XmlRoot XmlFoo
 isomorphicFoo :: Assertion
 isomorphicFoo = do
   let
-    rootNodes :: [(Text, Node)]
-    rootNodes = writeNodes rootExample
+    rootNodes :: Maybe Node
+    rootNodes = toNode rootExample
     attrVal :: Maybe Text
-    attrVal = rootNodes ^? traversed . named "Foo" . nodeAttribute
+    attrVal = rootNodes ^? _Just . nodeAttribute
   print rootNodes
   attrVal @?= Just "Value from right instance"
 
