@@ -9,10 +9,9 @@ import Data.Text.Lazy as T.L
 import Data.Text.Lazy.Builder as T.L
 import Data.Text.Lazy.Builder.Int as T.L
 import Numeric.Natural
-import Text.XML
 
 class ToXmlParentAttributes a where
-  toXmlParentAttributes :: a -> [(Name, T.S.Text)]
+  toXmlParentAttributes :: a -> [(T.S.Text, T.S.Text)]
 
 -- | A catch-all instance: by default objects don't have parent attributes.
 -- The alternative solution is to write a default implementation in the class,
