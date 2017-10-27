@@ -1,7 +1,5 @@
 module Text.XML.ParentAttributes
   ( ToXmlParentAttributes(..)
-  , ToXmlAttribute(..)
-  , toXmlAttributeIntegral
   ) where
 
 import Data.Text as T.S
@@ -29,24 +27,3 @@ class ToXmlParentAttributes a where
 -- value without worrying about missing instances.
 instance {-# OVERLAPPABLE #-} ToXmlParentAttributes a where
   toXmlParentAttributes _ = []
-
-class ToXmlAttribute a where
-  toXmlAttribute :: a -> T.S.Text
-
-instance ToXmlAttribute T.S.Text where
-  toXmlAttribute = id
-
-toXmlAttributeIntegral :: Integral a => a -> T.S.Text
-toXmlAttributeIntegral = T.L.toStrict . T.L.toLazyText . T.L.decimal
-
-instance ToXmlAttribute Int where
-  toXmlAttribute = toXmlAttributeIntegral
-
-instance ToXmlAttribute Word where
-  toXmlAttribute = toXmlAttributeIntegral
-
-instance ToXmlAttribute Integer where
-  toXmlAttribute = toXmlAttributeIntegral
-
-instance ToXmlAttribute Natural where
-  toXmlAttribute = toXmlAttributeIntegral

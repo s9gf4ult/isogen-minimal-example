@@ -19,7 +19,7 @@ instance WriteNodes XmlFoo where
 
 instance ToXmlParentAttributes XmlFoo where
   toXmlParentAttributes f =
-    mapMaybe distribPair [("Quux", (Just . toXmlAttribute) (_xfQuux f))]
+    mapMaybe distribPair [("Quux", Just (_xfQuux f))]
 
 data XmlRoot = XmlRoot
   { _xrFoo :: XmlFoo
