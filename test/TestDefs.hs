@@ -6,27 +6,20 @@ import Data.Text as T
 import ExternalStuff
 import GHC.Generics (Generic)
 
-mkElement
-  :: (WriteNodes a, ToAttribute a)
-  => Text
-  -> a
-  -> [(Text, Node)]
-mkElement name a = [(name, Node (writeNodes a) (toAttribute a))]
+mkNode :: (ToNode a, ToAttribute a) => a -> Node
+mkNode a = Node (toNode a) (toAttribute a)
 
-data XmlFoo = XmlFoo
-  { _xfQuux :: Text
-    -- ^ This is in fact an attribute, not tag
-  } deriving (Generic, Show, Eq)
+data XmlFoo = XmlFoo deriving (Generic, Show, Eq)
 
-instance WriteNodes XmlFoo where
-  writeNodes _ = []
+instance ToNode XmlFoo where
+  toNode _ = Nothing
 
 instance ToAttribute XmlFoo where
-  toAttribute = _xfQuux
+  toAttribute _ = "Value from right instance"
 
 data XmlRoot = XmlRoot
   { _xrFoo :: XmlFoo
   } deriving (Generic, Show, Eq)
 
-instance WriteNodes XmlRoot where
-  writeNodes r = id (mkElement "Foo") (_xrFoo r)
+instance ToNode XmlRoot where
+  toNode r = Just $ mkNode (_xrFoo r)
