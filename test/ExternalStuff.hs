@@ -6,4 +6,4 @@ class ToText a where
   toText :: a -> Text
 
 toTextProxy :: (ToText a) => a -> Text
-toTextProxy a = toText a
+toTextProxy = toText
