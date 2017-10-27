@@ -2,31 +2,35 @@
 module Main where
 
 import Control.Exception
-import Control.Lens
 import Data.Default
 import Data.Text as T
 import ExternalStuff
 import System.IO.Unsafe
 import Test.HUnit hiding (Node(..))
 import Test.Hspec
-import TestDefs
 
+data Foo = Foo deriving (Show, Eq)
 
-named :: Text -> Traversal' (Text, a) a
-named expected = filtered expName . _2
-  where
-    expName (name, _) = name == expected
+instance ToNode Foo where
+  toNode _ = Nothing
 
-rootExample :: XmlRoot
-rootExample = XmlRoot XmlFoo
+instance ToAttribute Foo where
+  toAttribute _ = "Value from right instance"
+
+data Root = Root
+  { _xrFoo :: Foo
+  } deriving (Show, Eq)
+
+instance ToNode Root where
+  toNode r = Just $ mkNode (_xrFoo r)
 
 isomorphicFoo :: Assertion
 isomorphicFoo = do
   let
     rootNodes :: Maybe Node
-    rootNodes = toNode rootExample
+    rootNodes = toNode $ Root Foo
     attrVal :: Maybe Text
-    attrVal = rootNodes ^? _Just . nodeAttribute
+    attrVal = nodeAttribute <$> rootNodes
   print rootNodes
   attrVal @?= Just "Value from right instance"
 
