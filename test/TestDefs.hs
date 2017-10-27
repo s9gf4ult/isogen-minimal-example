@@ -2,7 +2,6 @@
 
 module TestDefs where
 
-import Data.Text as T
 import ExternalStuff
 import GHC.Generics (Generic)
 

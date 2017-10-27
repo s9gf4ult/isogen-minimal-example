@@ -1,10 +1,7 @@
 module ExternalStuff where
 
 import Control.Lens
-import Data.List.NonEmpty
-import Data.Maybe
 import Data.Text as T
-import GHC.Generics (Generic)
 
 data Node = Node
   { _nodeChild     :: Maybe Node
