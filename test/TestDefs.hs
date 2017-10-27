@@ -2,7 +2,6 @@
 
 module TestDefs where
 
-import Data.Maybe
 import Data.Text as T
 import ExternalStuff
 import GHC.Generics (Generic)
@@ -18,8 +17,7 @@ instance WriteNodes XmlFoo where
   writeNodes _ = []
 
 instance ToXmlParentAttributes XmlFoo where
-  toXmlParentAttributes f =
-    mapMaybe distribPair [("Quux", Just (_xfQuux f))]
+  toXmlParentAttributes f = [("Quux", _xfQuux f)]
 
 data XmlRoot = XmlRoot
   { _xrFoo :: XmlFoo
