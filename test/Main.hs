@@ -2,7 +2,6 @@
 module Main where
 
 import Control.Exception
-import Control.Lens
 import Data.Default
 import Data.Text as T
 import ExternalStuff
@@ -10,12 +9,6 @@ import System.IO.Unsafe
 import Test.HUnit hiding (Node(..))
 import Test.Hspec
 import TestDefs
-
-
-named :: Text -> Traversal' (Text, a) a
-named expected = filtered expName . _2
-  where
-    expName (name, _) = name == expected
 
 rootExample :: XmlRoot
 rootExample = XmlRoot XmlFoo
@@ -26,7 +19,7 @@ isomorphicFoo = do
     rootNodes :: Maybe Node
     rootNodes = toNode rootExample
     attrVal :: Maybe Text
-    attrVal = rootNodes ^? _Just . nodeAttribute
+    attrVal = nodeAttribute <$> rootNodes
   print rootNodes
   attrVal @?= Just "Value from right instance"
 

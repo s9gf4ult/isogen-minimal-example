@@ -37,7 +37,6 @@ test-suite spec
                     , data-default
                     , generic-arbitrary
                     , hspec
-                    , lens
                     , semigroups
                     , text
   default-language:   Haskell2010

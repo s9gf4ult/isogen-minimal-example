@@ -1,14 +1,11 @@
 module ExternalStuff where
 
-import Control.Lens
 import Data.Text as T
 
 data Node = Node
-  { _nodeChild     :: Maybe Node
-  , _nodeAttribute :: Text
+  { nodeChild     :: Maybe Node
+  , nodeAttribute :: Text
   } deriving (Show)
-
-makeLenses ''Node
 
 class ToNode a where
   toNode  :: a -> Maybe Node
