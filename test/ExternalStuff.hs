@@ -2,10 +2,6 @@ module ExternalStuff where
 
 import Data.Text as T
 
-data Node = Node
-  { nodeAttribute :: Text
-  } deriving (Show)
-
 class ToAttribute a where
   toAttribute :: a -> Text
 
@@ -14,5 +10,5 @@ class ToAttribute a where
 instance {-# OVERLAPPABLE #-} ToAttribute a where
   toAttribute _ = "Catchall attribute value"
 
-mkNode :: (ToAttribute a) => a -> Node
-mkNode a = Node (toAttribute a)
+mkNode :: (ToAttribute a) => a -> Text
+mkNode a = toAttribute a
