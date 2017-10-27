@@ -18,14 +18,14 @@ data Root = Root
   { rootFoo :: Foo
   } deriving (Show, Eq)
 
-instance ToNode Root where
-  toNode r = mkNode $ rootFoo r
+rootToNode :: Root -> Node
+rootToNode (Root foo) = mkNode foo
 
 isomorphicFoo :: Assertion
 isomorphicFoo = do
   let
     rootNodes :: Node
-    rootNodes = toNode $ Root Foo
+    rootNodes = rootToNode $ Root Foo
     attrVal :: Text
     attrVal = nodeAttribute rootNodes
   print rootNodes
