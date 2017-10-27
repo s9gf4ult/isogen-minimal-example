@@ -42,6 +42,7 @@ library
   default-extensions:  CPP
                      , FlexibleInstances
                      , LambdaCase
+                     , OverloadedStrings
                      , RankNTypes
                      , TemplateHaskell
                      , TupleSections
