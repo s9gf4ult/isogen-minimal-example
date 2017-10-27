@@ -11,4 +11,4 @@ instance {-# OVERLAPPABLE #-} ToText a where
   toText _ = "Catchall attribute value"
 
 toTextProxy :: (ToText a) => a -> Text
-toTextProxy a = toText a
+toTextProxy = toText
