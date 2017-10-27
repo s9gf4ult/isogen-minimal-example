@@ -23,17 +23,9 @@ instance ToXmlParentAttributes XmlFoo where
   toXmlParentAttributes f =
     mapMaybe distribPair [("Quux", (Just . toXmlAttribute) (_xfQuux f))]
 
-instance FromDom XmlFoo where
-  fromDom = pure XmlFoo
-    <*> parseAttribute "Quux" fromAttribute
-
 data XmlRoot = XmlRoot
   { _xrFoo :: XmlFoo
   } deriving (Generic, Show, Eq)
 
 instance ToXML XmlRoot where
   toXML r = return () *> id (\a -> elementA "Foo" (toXmlParentAttributes a) a) (_xrFoo r)
-
-instance FromDom XmlRoot where
-  fromDom = pure XmlRoot
-    <*> inElem "Foo" fromDom
