@@ -15,9 +15,11 @@ the simple code of `check.sh`
 If you checkout to branch
 
 `fix-move-mkelement` `fix-no-catchall-instance`
-`fix-replace-mkelement` or then last test should succeed also.
+`fix-replace-mkelement` or `fix-add-irrelevant-instance` then last
+test should succeed also. Those branches contain changes over `master`
+which breaks the bug reproducibility.
 
-# Reproducability
+# Reproducibility
 ## Affects a bug
 ### Optimization level
 
@@ -46,8 +48,30 @@ solves the problem. See branch `fix-move-mkelement`
 Problem is also solved if the call of `toTextProxy` replaced with body
 of `toTextProxy`. Branch `fix-replace-mkelement`
 
+### Instances count in module ExternalStuff
+
+If module `ExternalStuff` contain single catchall intance then bug
+reproducing, when additional irrelevant instance is added
+
+``` haskell
+-- | This instance should not affect to 'toTextProxy' behaviour, but
+-- it does.
+instance {-# OVERLAPPING #-} ToText Int where
+  toText = T.pack . show
+```
+
+then bug reproducibility breaks.
+
 ## Not affects a bug
 
 ### INLINE pragma for toTextProxy
 
 No mater if INLINE pragma is set for `toTextProxy` function
+
+# Thoughts about the bug nature
+
+GHC-s optimizer optimizes the body of `toTextProxy` to the call of
+method `toText` of catchall instance, not a method from the dictionary
+as it should. But optimizer does it only if it sees only one instance
+in the scope of the module. If there is more than one instance then
+optimizer not simplifies `toTextProxy` such hard way.
