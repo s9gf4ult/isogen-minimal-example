@@ -1,14 +1,14 @@
+{-# LANGUAGE MonoLocalBinds #-}
+
 module ExternalStuff where
 
-import Data.Text as T
-
-class ToText a where
-  toText :: a -> Text
+class ToString a where
+  toString :: a -> String
 
 -- | This instance is used in original code as hack to simplify code
 -- generation
-instance {-# OVERLAPPABLE #-} ToText a where
-  toText _ = "Catchall attribute value"
+instance {-# OVERLAPPABLE #-} ToString a where
+  toString _ = "Catchall attribute value"
 
-toTextProxy :: (ToText a) => a -> Text
-toTextProxy = toText
+toString' :: (ToString a) => a -> String
+toString' = toString
