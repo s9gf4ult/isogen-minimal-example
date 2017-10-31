@@ -14,9 +14,9 @@ Running the `./check.sh` script triggers three builds:
 
 If you'll check out to either of fix- branches:
 
-* `fix-move-mkelement`
+* `fix-move-to_string`
 * `fix-no-catchall-instance`
-* `fix-replace-mkelement`
+* `fix-replace-to_string`
 * `fix-add-irrelevant-instance`
 
 then the last test should succeed also.
@@ -47,10 +47,10 @@ solves the problem, see the branch `fix-no-catchall-instance`
 * In the same module - SUCCEEDS
 
 Moving function `toStringProxy` from `ExternalStuff` to `Main`
-solves the problem. See branch `fix-move-mkelement`
+solves the problem. See branch `fix-move-to_string`
 
 Problem is also solved if the call of `toStringProxy` replaced with the body
-of `toStringProxy`. Branch `fix-replace-mkelement`
+of `toStringProxy`. Branch `fix-replace-to_string`
 
 ### Instances count in module ExternalStuff
 
