@@ -10,5 +10,10 @@ class ToText a where
 instance {-# OVERLAPPABLE #-} ToText a where
   toText _ = "Catchall attribute value"
 
+-- | This instance should not affect to 'toTextProxy' behaviour, but
+-- it does.
+instance {-# OVERLAPPING #-} ToText Int where
+  toText = T.pack . show
+
 toTextProxy :: (ToText a) => a -> Text
 toTextProxy = toText
