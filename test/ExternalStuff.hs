@@ -1,9 +1,9 @@
+{-# LANGUAGE MonoLocalBinds #-}
+
 module ExternalStuff where
 
-import Data.Text as T
+class ToString a where
+  toString :: a -> String
 
-class ToText a where
-  toText :: a -> Text
-
-toTextProxy :: (ToText a) => a -> Text
-toTextProxy = toText
+toString' :: (ToString a) => a -> String
+toString' = toString
