@@ -1,16 +1,16 @@
-# About repo
+# Bug demonstration repo
 
-This is the bug demonstration repo. The `master` branch contains
-changes not affected the bug reproducibility and branches with `fix-`
-prefix contain changes causing the bug not reproduce.
+The `master` branch demonstrate a bug with GHC 8.2.1 and branches with `fix-`
+prefix contain versions where a bug won't reproduce.
 
-There is also `ghc-???.yaml` files for other versions of
-GHC. `stack.yaml` is for GHC-8.2.1 in which bug is reproducable.
+There are `ghc-???.yaml` files for versions of GHC other than 8.2.1.
 
 # How to check if bug reproduces
 
-run `./check.sh`. First two test should succeed but last one fail. See
-the simple code of `check.sh`
+Running the `./check.sh` script triggers three builds:
+* GHC 8.0.2, -O, succeeds
+* GHC 8.2.1, -O0, succeeds
+* GHC 8.2.1, -O, fails
 
 If you checkout to branch
 

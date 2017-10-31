@@ -1,3 +1,5 @@
+{-# LANGUAGE MonoLocalBinds #-}
+
 module ExternalStuff where
 
 import Data.Text as T
