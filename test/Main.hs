@@ -8,11 +8,11 @@ import Test.HUnit hiding (Node(..))
 data Foo = Foo deriving (Show, Eq)
 
 instance {-# OVERLAPPING#-} ToString Foo where
-  toString _ = "Value from right instance"
+  toString _ = "Foo value - correct instance"
 
 main :: IO ()
 main = hspec $ do
-  it "Right instance" $ do
+  spec "Right instance" $ do
     let t = toString' Foo
     print t
     t @?= "Value from right instance"
